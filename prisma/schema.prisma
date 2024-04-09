@@ -43,3 +43,28 @@ model User {
 
   @@unique([email, phone_number], name: "unique_email_phone_number")
 }
+
+model TechLanguages {
+  id            String       @id @default(uuid())
+  name          String       @unique
+  icon          String       @unique
+  profile       ProfileUser? @relation(fields: [profileUserId], references: [id])
+  profileUserId String?
+}
+
+model Link {
+  id            String       @id @default(uuid())
+  name          String       @unique
+  icon          String       @unique
+  profile       ProfileUser? @relation(fields: [profileUserId], references: [id])
+  profileUserId String?
+}
+
+model ProfileUser {
+  id          String          @id @default(uuid())
+  title       String
+  description String
+  about       String
+  techs       TechLanguages[]
+  Link        Link[]
+}

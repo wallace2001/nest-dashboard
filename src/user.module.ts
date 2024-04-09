@@ -8,9 +8,16 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from "../prisma/prisma.service";
 import { EmailModule } from './email/email.module';
+import { LinksModule } from './links/links.module';
+import { LinksResolver } from './links/links.resolver';
+import { LinksService } from './links/links.service';
+import { TechsModule } from './techs/techs.module';
+import { TechsResolver } from './techs/techs.resolver';
+import { TechsService } from './techs/techs.service';
 import { TokenService } from './token/token.service';
 import { UsersResolver } from './user.resolver';
 import { UsersService } from './user.service';
+import { WebscrapModule } from './webscrap/webscrap.module';
 
 @Module({
   imports: [
@@ -53,14 +60,21 @@ import { UsersService } from './user.service';
       },
     }),
     EmailModule,
+    WebscrapModule,
+    TechsModule,
+    LinksModule,
   ],
   controllers: [],
   providers: [
     UsersService,
+    TechsService,
     ConfigService,
     JwtService,
     PrismaService,
     UsersResolver,
+    TechsResolver,
+    LinksResolver,
+    LinksService
   ],
 })
 export class UsersModule {}

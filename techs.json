@@ -1,0 +1,204 @@
+[
+    {
+        "name": "JavaScript",
+        "icon": "javascript"
+    },
+    {
+        "name": "Python",
+        "icon": "python"
+    },
+    {
+        "name": "Java",
+        "icon": "java"
+    },
+    {
+        "name": "C#",
+        "icon": "csharp"
+    },
+    {
+        "name": "C++",
+        "icon": "cplusplus"
+    },
+    {
+        "name": "Ruby",
+        "icon": "ruby"
+    },
+    {
+        "name": "Swift",
+        "icon": "swift"
+    },
+    {
+        "name": "Kotlin",
+        "icon": "kotlin"
+    },
+    {
+        "name": "Go",
+        "icon": "go"
+    },
+    {
+        "name": "TypeScript",
+        "icon": "typescript"
+    },
+    {
+        "name": "React.js",
+        "icon": "react"
+    },
+    {
+        "name": "Angular",
+        "icon": "angular"
+    },
+    {
+        "name": "Vue.js",
+        "icon": "vue"
+    },
+    {
+        "name": "Svelte",
+        "icon": "svelte"
+    },
+    {
+        "name": "Ember.js",
+        "icon": "ember"
+    },
+    {
+        "name": "Node.js",
+        "icon": "node"
+    },
+    {
+        "name": "Django",
+        "icon": "django"
+    },
+    {
+        "name": "Flask",
+        "icon": "flask"
+    },
+    {
+        "name": "Spring",
+        "icon": "spring"
+    },
+    {
+        "name": "Ruby on Rails",
+        "icon": "rubyonrails"
+    },
+    {
+        "name": "ASP.NET",
+        "icon": "aspnet"
+    },
+    {
+        "name": "NestJS",
+        "icon": "nest"
+    },
+    {
+        "name": "NextJS",
+        "icon": "next"
+    },
+    {
+        "name": "MySQL",
+        "icon": "mysql"
+    },
+    {
+        "name": "PostgreSQL",
+        "icon": "postgresql"
+    },
+    {
+        "name": "MongoDB",
+        "icon": "mongodb"
+    },
+    {
+        "name": "SQLite",
+        "icon": "sqlite"
+    },
+    {
+        "name": "Microsoft SQL Server",
+        "icon": "microsoftsqlserver"
+    },
+    {
+        "name": "Git",
+        "icon": "git"
+    },
+    {
+        "name": "Mercurial",
+        "icon": "mercurial"
+    },
+    {
+        "name": "Amazon Web Services (AWS)",
+        "icon": "aws"
+    },
+    {
+        "name": "Microsoft Azure",
+        "icon": "azure"
+    },
+    {
+        "name": "Google Cloud Platform (GCP)",
+        "icon": "gcp"
+    },
+    {
+        "name": "Docker",
+        "icon": "docker"
+    },
+    {
+        "name": "Kubernetes",
+        "icon": "kubernetes"
+    },
+    {
+        "name": "Agile",
+        "icon": "agile"
+    },
+    {
+        "name": "Scrum",
+        "icon": "scrum"
+    },
+    {
+        "name": "Kanban",
+        "icon": "kanban"
+    },
+    {
+        "name": "DevOps",
+        "icon": "devops"
+    },
+    {
+        "name": "RESTful APIs",
+        "icon": "restapi"
+    },
+    {
+        "name": "GraphQL",
+        "icon": "graphql"
+    },
+    {
+        "name": "JSON",
+        "icon": "json"
+    },
+    {
+        "name": "XML",
+        "icon": "xml"
+    },
+    {
+        "name": "gRPC",
+        "icon": "grpc"
+    },
+    {
+        "name": "JWT (JSON Web Tokens)",
+        "icon": "jwt"
+    },
+    {
+        "name": "OAuth",
+        "icon": "oauth"
+    },
+    {
+        "name": "WebSockets",
+        "icon": "websockets"
+    },
+    {
+        "name": "Selenium (Testes automatizados)",
+        "icon": "selenium"
+    },
+    {
+        "name": "JIRA (Gestão de projetos)",
+        "icon": "jira"
+    },        {
+        "name": "Jenkins (Integração contínua)",
+        "icon": "jenkins"
+    },        {
+        "name": "Ansible (Automação de infraestrutura)",
+        "icon": "ansible"
+    }
+]
