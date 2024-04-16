@@ -24,8 +24,6 @@ import { PrismaService } from "../../prisma/prisma.service";
       const accessToken = req.headers['access_token'] as string;
       const refreshToken = req.headers['refresh_token'] as string;
 
-      console.log(req);
-
       if (!accessToken || !refreshToken) {
         throw new UnauthorizedException('Please login to access this resource!');
       }
@@ -62,7 +60,7 @@ import { PrismaService } from "../../prisma/prisma.service";
           );
         }
 
-        console.log(decoded);
+        console.log('a: ', decoded);
 
         const user = await this.prisma.user.findUnique({
           where: {
@@ -100,6 +98,8 @@ import { PrismaService } from "../../prisma/prisma.service";
         const refreshTokenData = req.headers['refresh_token'] as string;
 
         const decoded = this.jwtService.decode(accessTokenData);
+
+        console.log('b: ', decoded);
 
         const user = await this.prisma.user.findUnique({
           where: {

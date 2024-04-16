@@ -12,8 +12,26 @@ export class ErrorType {
 @ObjectType()
 export class TechResponse {
   @Field()
+  id: string;
+
+  @Field()
   name: string;
 
   @Field()
   icon: string
+}
+
+@ObjectType()
+export class LinkProfilesResponse {
+  @Field()
+  id: string;
+
+  @Field(() => TechResponse)
+  link: TechResponse | unknown;
+
+  @Field()
+  linkUrl: string;
+
+  @Field()
+  linkId: string
 }

@@ -18,53 +18,66 @@ enum Role {
   User
 }
 
-model Avatars {
-  id        String @id @default(uuid())
-  public_id String
-  url       String
-  user      User   @relation(fields: [userId], references: [id])
-  userId    String @unique
+model Avatar {
+  id       String @id @default(uuid())
+  publicId String
+  url      String
+  user     User?  @relation()
+  userId   String @unique
 
   @@index([userId])
 }
 
 model User {
-  id           String   @id @default(uuid())
+  id           String       @id @default(uuid())
   name         String
-  email        String   @unique
+  email        String       @unique
   // phone_number Float? @unique  ===> we can't use this line because sometime our phone number is null and then we can't compare it
   phone_number Float?
   address      String?
   password     String
-  avatar       Avatars?
-  role         Role     @default(User)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  avatar       Avatar?      @relation(fields: [avatarId], references: [id])
+  avatarId     String?      @unique
+  role         Role         @default(User)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  ProfileUser  ProfileUser?
 
   @@unique([email, phone_number], name: "unique_email_phone_number")
 }
 
 model TechLanguages {
-  id            String       @id @default(uuid())
-  name          String       @unique
-  icon          String       @unique
-  profile       ProfileUser? @relation(fields: [profileUserId], references: [id])
-  profileUserId String?
+  id      String        @id @default(uuid())
+  name    String        @unique
+  icon    String        @unique
+  profile ProfileUser[]
 }
 
 model Link {
+  id          String        @id @default(uuid())
+  name        String        @unique
+  icon        String        @unique
+  profile     ProfileUser[]
+  LinkProfile LinkProfile[]
+}
+
+model LinkProfile {
   id            String       @id @default(uuid())
-  name          String       @unique
-  icon          String       @unique
-  profile       ProfileUser? @relation(fields: [profileUserId], references: [id])
+  link          Link?        @relation(fields: [linkId], references: [id])
+  linkId        String?      @unique
+  linkUrl       String
+  profileUser   ProfileUser? @relation(fields: [profileUserId], references: [id])
   profileUserId String?
 }
 
 model ProfileUser {
-  id          String          @id @default(uuid())
-  title       String
-  description String
-  about       String
-  techs       TechLanguages[]
-  Link        Link[]
+  id           String          @id @default(uuid())
+  title        String
+  description  String
+  about        String?
+  techs        TechLanguages[]
+  links        Link[]
+  user         User?           @relation(fields: [userId], references: [id])
+  userId       String?         @unique
+  linkProfiles LinkProfile[]
 }

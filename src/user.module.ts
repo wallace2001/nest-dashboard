@@ -7,10 +7,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from "../prisma/prisma.service";
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { CloudinaryService } from './cloudinary/cloudinary.service';
 import { EmailModule } from './email/email.module';
 import { LinksModule } from './links/links.module';
 import { LinksResolver } from './links/links.resolver';
 import { LinksService } from './links/links.service';
+import { ProfileResolver } from './profile/profile.resolver';
+import { ProfileService } from './profile/profile.service';
 import { TechsModule } from './techs/techs.module';
 import { TechsResolver } from './techs/techs.resolver';
 import { TechsService } from './techs/techs.service';
@@ -63,6 +67,7 @@ import { WebscrapModule } from './webscrap/webscrap.module';
     WebscrapModule,
     TechsModule,
     LinksModule,
+    CloudinaryModule
   ],
   controllers: [],
   providers: [
@@ -74,7 +79,10 @@ import { WebscrapModule } from './webscrap/webscrap.module';
     UsersResolver,
     TechsResolver,
     LinksResolver,
-    LinksService
+    LinksService,
+    ProfileResolver,
+    ProfileService,
+    CloudinaryService,
   ],
 })
 export class UsersModule {}
