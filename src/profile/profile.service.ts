@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Link, ProfileUser, TechLanguages } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
-import { CreateProfileDto } from './dto/profile.dto';
+import { CreateProfileDto, UpdateAboutDto } from './dto/profile.dto';
 
 type LinkProfile = {
   id?: string;
@@ -86,6 +86,28 @@ export class ProfileService {
       }
   
       return { message: id ? 'Profile Updated Successfully!' : 'Profile Created Successfully!' };
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException('Error!');
+    }
+  }
+
+  async updateAboutProfile(
+    updateAboutDto: UpdateAboutDto,
+    req: any,
+  ) {
+    try {
+      const { id, about } = updateAboutDto;
+    
+      if (id) {
+        await this.prisma.profileUser.update({
+          where: { id },
+          data: { about },
+        });
+      }
+
+      return {message: "About updated Successfully!"}
+      
     } catch (error) {
       console.log(error);
       throw new BadRequestException('Error!');

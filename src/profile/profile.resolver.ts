@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { CreateProfileDto } from './dto/profile.dto';
+import { CreateProfileDto, UpdateAboutDto } from './dto/profile.dto';
 import { ProfileService } from './profile.service';
 import { CreateProfileResponse, ProfileResponse } from './types/profile.types';
 
@@ -27,6 +27,18 @@ export class ProfileResolver {
   ) {
     return await this.profileService.createProfile(
       createProfileDto,
+      context.req,
+    );
+  }
+
+  @Mutation(() => CreateProfileResponse)
+  @UseGuards(AuthGuard)
+  async updateAboutProfile(
+    @Context() context: { req: Request },
+    @Args('updateAboutDto') updateAboutDto: UpdateAboutDto,
+  ) {
+    return await this.profileService.updateAboutProfile(
+      updateAboutDto,
       context.req,
     );
   }

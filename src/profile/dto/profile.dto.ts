@@ -38,6 +38,15 @@ class TechsResponse {
 }
 
 @InputType()
+export class UpdateAboutDto {
+  @Field()
+  id: string;
+
+  @Field()
+  about: string;
+}
+
+@InputType()
 export class CreateProfileDto {
   @Field()
   id?: string;

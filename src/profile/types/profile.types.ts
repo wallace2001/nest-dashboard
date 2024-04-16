@@ -24,6 +24,9 @@ export class ProfileResponse {
   @Field()
   description: string;
 
+  @Field()
+  about: string;
+
   @Field(() => [TechResponse])
   techs: TechResponse[];
 
