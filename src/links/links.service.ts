@@ -26,7 +26,7 @@ export class LinksService {
 
       const link = await this.findUniqueLink(unlinkLinkProfileDto.id);
 
-      await this.prisma.linkProfile.delete({
+      await this.prisma.linkProfile.deleteMany({
         where: {
           linkId: link.id,
         },
@@ -66,7 +66,7 @@ export class LinksService {
 
   private async connectLinkInProfile(id: string, link: Link): Promise<void> {
     await this.prisma.profileUser.update({
-      where: { id },
+      where: { userId: id },
       data: {
         links: { connect: link },
       },
@@ -75,7 +75,7 @@ export class LinksService {
 
   private async disconnectLinkInProfile(id: string, link: Link): Promise<void> {
     await this.prisma.profileUser.update({
-      where: { id },
+      where: { userId: id },
       data: {
         links: { disconnect: link },
       },

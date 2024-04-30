@@ -24,7 +24,7 @@ export class ProfileResponse {
   @Field()
   description: string;
 
-  @Field()
+  @Field({ nullable: true })
   about: string;
 
   @Field(() => [TechResponse])

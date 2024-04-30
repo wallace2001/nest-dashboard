@@ -48,7 +48,7 @@ export class UpdateAboutDto {
 
 @InputType()
 export class CreateProfileDto {
-  @Field()
+  @Field({ nullable: true })
   id?: string;
 
   @Field()
@@ -60,10 +60,6 @@ export class CreateProfileDto {
   @IsNotEmpty({ message: "Profile description is required." })
   @IsString({ message: "Profile description must need to be one string." })
   description: string;
-
-  // @Field()
-  // @IsString({ message: "Profile about must need to be one string." })
-  // about?: string;
 
   @Field(() => [TechsResponse])
   @IsNotEmpty({ message: "Profile techs is required." })
@@ -94,10 +90,6 @@ export class UpdateProfileDto {
   @IsNotEmpty({ message: "Profile description is required." })
   @IsString({ message: "Profile description must need to be one string." })
   description: string;
-
-  // @Field()
-  // @IsString({ message: "Profile about must need to be one string." })
-  // about?: string;
 
   @Field(() => [TechsResponse])
   @IsNotEmpty({ message: "Profile techs is required." })

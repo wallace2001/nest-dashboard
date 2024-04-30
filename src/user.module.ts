@@ -24,6 +24,8 @@ import { UsersService } from './user.service';
 import { WebscrapModule } from './webscrap/webscrap.module';
 import { ExperienceService } from './experience/experience.service';
 import { ExperienceResolver } from './experience/experience.resolver';
+import { ArticleService } from './article/article.service';
+import { ArticleResolver } from './article/article.resolver';
 
 @Module({
   imports: [
@@ -87,6 +89,8 @@ import { ExperienceResolver } from './experience/experience.resolver';
     CloudinaryService,
     ExperienceService,
     ExperienceResolver,
+    ArticleService,
+    ArticleResolver,
   ],
 })
 export class UsersModule {}

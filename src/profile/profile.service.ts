@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { Link, ProfileUser, TechLanguages } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateProfileDto, UpdateAboutDto } from './dto/profile.dto';
+import { LinksService } from 'src/links/links.service';
 
 type LinkProfile = {
   id?: string;
@@ -26,7 +27,7 @@ type Profile = {
 @Injectable()
 export class ProfileService {
   private profileUser: ProfileUser;
-  constructor(private readonly prisma: PrismaService) {
+  constructor(private readonly prisma: PrismaService, LinksService: LinksService) {
   }
 
   removeNullValues(obj): any {
@@ -84,6 +85,8 @@ export class ProfileService {
       } else {
         await this.createProfileUser(title, description, userFilter?.id, techs, links);
       }
+
+      this.updateUserWithLinks(userFilter?.id, linksGroup);
   
       return { message: id ? 'Profile Updated Successfully!' : 'Profile Created Successfully!' };
     } catch (error) {
@@ -111,6 +114,45 @@ export class ProfileService {
     } catch (error) {
       console.log(error);
       throw new BadRequestException('Error!');
+    }
+  }
+
+  async updateUserWithLinks(userId: string, linkData) {
+    try {
+      await this.prisma.$transaction(async (tx) => {
+        const user = await tx.profileUser.update({
+          where: { id: userId },
+          data: {
+            links: {
+              upsert: linkData.map(link => ({
+                where: { id: link.id },
+                create: link,
+                update: link
+              }))
+            }
+          },
+          include: { links: true }
+        });
+  
+        const linkIdsToRemove = user.links
+          .filter(link => !linkData.some(ld => ld.id === link.id))
+          .map(link => link.id);
+        
+        await tx.profileUser.update({
+          where: { id: userId },
+          data: {
+            links: {
+              disconnect: linkIdsToRemove.map(id => ({ id }))
+            }
+          }
+        });
+      });
+  
+      console.log("Relacionamentos de usuário atualizados com sucesso.");
+    } catch (error) {
+      console.error("Erro ao atualizar relacionamentos de usuário:", error);
+    } finally {
+      this.prisma.$disconnect();
     }
   }
 
@@ -143,9 +185,18 @@ export class ProfileService {
       data: { linkUrl: link.linkUrl, profileUser: { connect: { id: this.profileUser.id } }, link: { connect: { id: link.link?.id } } },
     });
   }
+
+  private async connectLinkInProfile(id: string, link: Link): Promise<void> {
+    await this.prisma.profileUser.update({
+      where: { id },
+      data: {
+        links: { connect: link },
+      },
+    });
+  }
   
-  private async createProfileUser(title: string, description: string, userId: string, techs: TechLanguages[], links: Link[]): Promise<void> {
-    await this.prisma.profileUser.create({
+  private async createProfileUser(title: string, description: string, userId: string, techs: TechLanguages[], links: Link[]): Promise<ProfileUser> {
+    return await this.prisma.profileUser.create({
       data: { title, description, user: { connect: { id: userId } }, techs: { connect: techs }, links: { connect: links } },
     });
   }
