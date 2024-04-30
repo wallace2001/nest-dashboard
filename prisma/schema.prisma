@@ -43,6 +43,7 @@ model User {
   updatedAt    DateTime     @updatedAt
   ProfileUser  ProfileUser?
   Article      Article[]
+  Project      Project[]
 
   @@unique([email, phone_number], name: "unique_email_phone_number")
 }
@@ -102,4 +103,27 @@ model Article {
   userId      String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Image {
+  id        String   @id @default(uuid())
+  projectId String   @unique // Foreign Key to Product
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  url       String // URL of the image
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([projectId])
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  content     String?
+  title       String
+  description String
+  user        User?    @relation(fields: [userId], references: [id])
+  userId      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  image       Image?
 }

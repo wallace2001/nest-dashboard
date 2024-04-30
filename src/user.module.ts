@@ -26,6 +26,8 @@ import { ExperienceService } from './experience/experience.service';
 import { ExperienceResolver } from './experience/experience.resolver';
 import { ArticleService } from './article/article.service';
 import { ArticleResolver } from './article/article.resolver';
+import { ProjectService } from './project/project.service';
+import { ProjectResolver } from './project/project.resolver';
 
 @Module({
   imports: [
@@ -91,6 +93,8 @@ import { ArticleResolver } from './article/article.resolver';
     ExperienceResolver,
     ArticleService,
     ArticleResolver,
+    ProjectService,
+    ProjectResolver,
   ],
 })
 export class UsersModule {}
