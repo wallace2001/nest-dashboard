@@ -60,8 +60,6 @@ import { PrismaService } from "../../prisma/prisma.service";
           );
         }
 
-        console.log('a: ', decoded);
-
         const user = await this.prisma.user.findUnique({
           where: {
             id: decoded.sub,

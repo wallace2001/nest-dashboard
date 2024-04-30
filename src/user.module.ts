@@ -22,6 +22,8 @@ import { TokenService } from './token/token.service';
 import { UsersResolver } from './user.resolver';
 import { UsersService } from './user.service';
 import { WebscrapModule } from './webscrap/webscrap.module';
+import { ExperienceService } from './experience/experience.service';
+import { ExperienceResolver } from './experience/experience.resolver';
 
 @Module({
   imports: [
@@ -83,6 +85,8 @@ import { WebscrapModule } from './webscrap/webscrap.module';
     ProfileResolver,
     ProfileService,
     CloudinaryService,
+    ExperienceService,
+    ExperienceResolver,
   ],
 })
 export class UsersModule {}

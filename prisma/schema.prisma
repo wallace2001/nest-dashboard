@@ -70,6 +70,15 @@ model LinkProfile {
   profileUserId String?
 }
 
+model Experience {
+  id            String       @id @default(uuid())
+  name          String
+  from          DateTime
+  to            DateTime?
+  ProfileUser   ProfileUser? @relation(fields: [profileUserId], references: [id])
+  profileUserId String?
+}
+
 model ProfileUser {
   id           String          @id @default(uuid())
   title        String
@@ -80,4 +89,5 @@ model ProfileUser {
   user         User?           @relation(fields: [userId], references: [id])
   userId       String?         @unique
   linkProfiles LinkProfile[]
+  experiences  Experience[]
 }
