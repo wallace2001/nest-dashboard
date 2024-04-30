@@ -97,8 +97,6 @@ import { PrismaService } from "../../prisma/prisma.service";
 
         const decoded = this.jwtService.decode(accessTokenData);
 
-        console.log('b: ', decoded);
-
         const user = await this.prisma.user.findUnique({
           where: {
             id: decoded.sub,

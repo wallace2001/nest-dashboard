@@ -6,6 +6,7 @@ import {
   ForgotPasswordDto,
   RegisterDto,
   ResetPasswordDto,
+  UserDto,
 } from './dto/user.dto';
 import { User } from './entities/user.entities';
 import { AuthGuard } from './guards/auth.guard';
@@ -18,6 +19,7 @@ import {
   ResetPasswordResponse,
 } from './types/user.types';
 import { UsersService } from './user.service';
+import { MessageResponse } from './project/types/project.types';
 
 @Resolver('User')
 // @UseFilters
@@ -56,6 +58,15 @@ export class UsersResolver {
     @Context() context: { res: Response }
   ): Promise<LoginResponse> {
     return await this.userService.Login({ email, password }, context.res);
+  }
+
+  @Mutation(() => MessageResponse)
+  @UseGuards(AuthGuard)
+  async updateUser(
+    @Args('userDto') userDto: UserDto,
+    @Context() context: { req: Request }
+  ): Promise<MessageResponse> {
+    return await this.userService.updateUser(userDto, context.req);
   }
 
   @Query(() => LoginResponse)

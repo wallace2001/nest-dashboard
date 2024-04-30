@@ -11,6 +11,7 @@ import {
   LoginDto,
   RegisterDto,
   ResetPasswordDto,
+  UserDto,
 } from './dto/user.dto';
 import { EmailService } from './email/email.service';
 interface UserData {
@@ -52,20 +53,63 @@ export class UsersService {
     return { user, accessToken, refreshToken };
   }
 
-  async getUserById(userId: string) {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
+  async updateUser(userDto: UserDto, req: any) {
+    try {
+      const user = req.user;
 
-    if (!user) {
+      await this.prisma.avatar.deleteMany({
+        where: {
+          userId: user.id // Remover todas as imagens associadas a este usuário
+        }
+      });
+
+      await this.prisma.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          name: userDto.name,
+          avatar: {
+            create: {
+              url: userDto.imageUrl,
+              userId: user.id,
+            }
+          }
+        }
+      });
+
+      return {message: "User updated!"};
+    } catch (error) {
+      console.log(error);
       throw new BadRequestException(
-        'User not exists!',
+        'Error',
       );
     }
+  }
 
-    return {user};
+  async getUserById(userId: string) {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+        include: {
+          avatar: true
+        }
+      });
+  
+      if (!user) {
+        throw new BadRequestException(
+          'User not exists!',
+        );
+      }
+  
+      return {user}; 
+    } catch (error) {
+      throw new BadRequestException(
+        'Error',
+      );
+    }
   }
 
   async getUserByEmail(email: string) {

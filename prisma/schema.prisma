@@ -20,7 +20,6 @@ enum Role {
 
 model Avatar {
   id       String @id @default(uuid())
-  publicId String
   url      String
   user     User?  @relation()
   userId   String @unique

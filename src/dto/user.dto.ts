@@ -24,6 +24,17 @@ export class RegisterDto {
 }
 
 @InputType()
+export class UserDto {
+  @Field()
+  @IsNotEmpty({ message: 'Name is required.' })
+  @IsString({ message: 'Name must need to be one string.' })
+  name: string;
+
+  @Field()
+  imageUrl: string;
+}
+
+@InputType()
 export class ActivationDto {
   @Field()
   @IsNotEmpty({ message: 'Activation Token is required.' })

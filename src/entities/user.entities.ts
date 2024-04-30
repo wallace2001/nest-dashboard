@@ -7,9 +7,6 @@ export class Avatars {
   id: string;
 
   @Field()
-  public_id: string;
-
-  @Field()
   url: string;
 
   @Field()
