@@ -1,10 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
-import { ContactDto } from './dto/contact.dto';
+import { ContactDto, SendContactDto } from './dto/contact.dto';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class ContactService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly emailService: EmailService
+    ) {}
 
     async createOrUpdateContact(contactDto: ContactDto, req: any) {
         try {
@@ -59,6 +63,37 @@ export class ContactService {
                     profileUserId: userProfile.id
                 }
             });
+        } catch (error) {
+            throw new BadRequestException('Error!');
+        }
+    }
+
+    async sendContact(sendContactDto: SendContactDto) {
+        try {
+            const { name, email, phone, description, emailPortfolio } = sendContactDto;
+
+            const user = await this.prisma.user.findUnique({
+                where: {
+                    email: emailPortfolio
+                }
+            });
+
+            if (!user) {
+                throw new BadRequestException('Error!');
+            }
+
+            this.emailService.sendMailContact({
+                description,
+                email: emailPortfolio,
+                emailClient: email,
+                name: user.name,
+                nameClient: name,
+                phoneClient: phone,
+                subject: description,
+                template: './client-contact.ejs',
+            });
+
+            return { message: "Email send successfully" };
         } catch (error) {
             throw new BadRequestException('Error!');
         }

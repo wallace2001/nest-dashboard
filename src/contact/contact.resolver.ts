@@ -2,7 +2,7 @@ import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ContactService } from './contact.service';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { ContactDto } from './dto/contact.dto';
+import { ContactDto, SendContactDto } from './dto/contact.dto';
 import { ContactResponse } from './types/contact.types';
 import { Response } from 'src/article/types/article.types';
 
@@ -27,6 +27,15 @@ export class ContactResolver {
       return await this.contactService.createOrUpdateContact(
         contactDto,
         context.req,
+      );
+    }
+
+    @Mutation(() => Response)
+    async sendContact(
+      @Args('sendContactDto') sendContactDto: SendContactDto,
+    ) {
+      return await this.contactService.sendContact(
+        sendContactDto,
       );
     }
 }

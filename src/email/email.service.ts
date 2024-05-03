@@ -9,6 +9,17 @@ type mailOptions = {
   template: string;
 };
 
+type mailContactOptions = {
+  subject: string;
+  email: string;
+  name: string;
+  emailClient: string;
+  phoneClient: string;
+  nameClient: string;
+  description: string;
+  template: string;
+};
+
 @Injectable()
 export class EmailService {
   constructor(private mailService: MailerService) {}
@@ -26,6 +37,30 @@ export class EmailService {
       context: {
         name,
         activationCode,
+      },
+    });
+  }
+
+  async sendMailContact({
+    subject,
+    email,
+    name,
+    emailClient,
+    nameClient,
+    description,
+    phoneClient,
+    template,
+  }: mailContactOptions) {
+    await this.mailService.sendMail({
+      to: email,
+      subject,
+      template,
+      context: {
+        nameClient,
+        emailClient,
+        description,
+        phoneClient,
+        name,
       },
     });
   }
