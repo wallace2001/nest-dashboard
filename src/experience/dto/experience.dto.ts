@@ -28,6 +28,11 @@ export class CreateExperienceDto {
   @IsString({ message: "Experience Name must need to be one string." })
   name: string;
 
+  @Field()
+  @IsNotEmpty({ message: "Experience Function is required." })
+  @IsString({ message: "Experience Function must need to be one string." })
+  function: string;
+
   @Field(() => DateDto)
   @IsNotEmpty({ message: "Experience dates is required." })
   date: DateDto | unknown;

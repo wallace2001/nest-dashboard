@@ -20,7 +20,6 @@ export class ArticleResolver {
     }
 
     @Query(() => ArticleResponse)
-    @UseGuards(AuthGuard)
     async getArticleById(
       @Args('getArticleDto') getArticleDto: GetArticleDto,
     ) {

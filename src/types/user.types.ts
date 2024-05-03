@@ -29,6 +29,12 @@ export class ActivationResponse {
 }
 
 @ObjectType()
+export class UserResponse {
+  @Field(() => User)
+  user: User | unknown;
+}
+
+@ObjectType()
 export class LoginResponse {
   @Field(() => User, { nullable: true })
   user?: User | unknown;

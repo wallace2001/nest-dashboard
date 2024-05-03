@@ -8,7 +8,7 @@ import {
   ResetPasswordDto,
   UserDto,
 } from './dto/user.dto';
-import { User } from './entities/user.entities';
+import { User, UserAdvanced } from './entities/user.entities';
 import { AuthGuard } from './guards/auth.guard';
 import {
   ActivationResponse,
@@ -80,6 +80,15 @@ export class UsersResolver {
     @Args('userId') userId: string
   ) {
     return await this.userService.getUserById(userId);
+  }
+
+  @Query(() => UserAdvanced)
+  async getUser(
+    @Args('name') name: string,
+  ) {
+    return await this.userService.getUser(
+      name
+    );
   }
 
   @Query(() => LoginResponse)

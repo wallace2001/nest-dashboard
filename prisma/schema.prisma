@@ -19,17 +19,17 @@ enum Role {
 }
 
 model Avatar {
-  id       String @id @default(uuid())
-  url      String
-  user     User?  @relation()
-  userId   String @unique
+  id     String @id @default(uuid())
+  url    String
+  user   User?  @relation()
+  userId String @unique
 
   @@index([userId])
 }
 
 model User {
   id           String       @id @default(uuid())
-  name         String
+  name         String       @unique
   email        String       @unique
   // phone_number Float? @unique  ===> we can't use this line because sometime our phone number is null and then we can't compare it
   phone_number Float?
@@ -74,6 +74,7 @@ model LinkProfile {
 model Experience {
   id            String       @id @default(uuid())
   name          String
+  function      String
   from          DateTime
   to            DateTime?
   ProfileUser   ProfileUser? @relation(fields: [profileUserId], references: [id])
@@ -91,6 +92,24 @@ model ProfileUser {
   userId       String?         @unique
   linkProfiles LinkProfile[]
   experiences  Experience[]
+  Contact      Contact?
+  ProjectPage  ProjectPage?
+}
+
+model Contact {
+  id            String       @id @default(uuid())
+  title         String
+  description   String
+  profileUser   ProfileUser? @relation(fields: [profileUserId], references: [id])
+  profileUserId String       @unique
+}
+
+model ProjectPage {
+  id            String       @id @default(uuid())
+  title         String
+  description   String
+  profileUser   ProfileUser? @relation(fields: [profileUserId], references: [id])
+  profileUserId String       @unique
 }
 
 model Article {

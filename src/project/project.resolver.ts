@@ -1,9 +1,10 @@
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ProjectService } from './project.service';
-import { MessageResponse, ProjectResponse } from './types/project.types';
+import { ProjectPageResponse, ProjectResponse } from './types/project.types';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { DeleteProjectDto, GetProjectDto, ProjectDto } from './dto/project.dto';
+import { DeleteProjectDto, GetProjectDto, ProjectDto, ProjectPageDto } from './dto/project.dto';
+import { Response } from 'src/article/types/article.types';
 
 @Resolver()
 export class ProjectResolver {
@@ -20,7 +21,6 @@ export class ProjectResolver {
     }
 
     @Query(() => ProjectResponse)
-    @UseGuards(AuthGuard)
     async getProjectById(
       @Args('getProjectDto') getProjectDto: GetProjectDto,
     ) {
@@ -29,7 +29,7 @@ export class ProjectResolver {
       );
     }
 
-    @Mutation(() => MessageResponse)
+    @Mutation(() => Response)
     @UseGuards(AuthGuard)
     async createOrUpdateProject(
       @Context() context: { req: Request },
@@ -41,7 +41,29 @@ export class ProjectResolver {
       );
     }
 
-    @Mutation(() => MessageResponse)
+    @Mutation(() => Response)
+    @UseGuards(AuthGuard)
+    async createOrUpdateProjectPage(
+      @Context() context: { req: Request },
+      @Args('projectPageDto') projectPageDto: ProjectPageDto,
+    ) {
+      return await this.projectService.createOrUpdateProjectPage(
+        projectPageDto,
+        context.req,
+      );
+    }
+
+    @Query(() => ProjectPageResponse)
+    @UseGuards(AuthGuard)
+    async getProjectPage(
+      @Context() context: { req: Request },
+    ) {
+      return await this.projectService.getProjectPage(
+        context.req
+      );
+    }
+
+    @Mutation(() => Response)
     @UseGuards(AuthGuard)
     async deleteProject(
       @Args('deleteProjectDto') deleteProjectDto: DeleteProjectDto,

@@ -28,6 +28,8 @@ import { ArticleService } from './article/article.service';
 import { ArticleResolver } from './article/article.resolver';
 import { ProjectService } from './project/project.service';
 import { ProjectResolver } from './project/project.resolver';
+import { ContactService } from './contact/contact.service';
+import { ContactResolver } from './contact/contact.resolver';
 
 @Module({
   imports: [
@@ -95,6 +97,8 @@ import { ProjectResolver } from './project/project.resolver';
     ArticleResolver,
     ProjectService,
     ProjectResolver,
+    ContactService,
+    ContactResolver,
   ],
 })
 export class UsersModule {}

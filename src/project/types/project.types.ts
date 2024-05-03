@@ -36,6 +36,18 @@ export class ProjectResponse {
 }
 
 @ObjectType()
+export class ProjectPageResponse {
+  @Field()
+  id: string;
+
+  @Field()
+  title: string;
+
+  @Field()
+  description: string;
+}
+
+@ObjectType()
 export class DeleteProjectResponse {
   @Field()
   message: string;

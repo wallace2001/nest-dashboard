@@ -81,12 +81,13 @@ export class ProfileService {
       if (id) {
         const profileUserUpdated = await this.updateProfile(id, title, description, about, techs, links);
         this.profileUser = profileUserUpdated;
-        await this.updateLinkProfiles(linksGroup);
       } else {
-        await this.createProfileUser(title, description, userFilter?.id, techs, links);
+        const profile = await this.createProfileUser(title, description, userFilter?.id, techs, links);
+        this.profileUser = profile;
       }
 
-      this.updateUserWithLinks(userFilter?.id, linksGroup);
+      await this.updateLinkProfiles(linksGroup);
+      // this.updateUserWithLinks(userFilter?.id, linksGroup);
   
       return { message: id ? 'Profile Updated Successfully!' : 'Profile Created Successfully!' };
     } catch (error) {
@@ -118,6 +119,7 @@ export class ProfileService {
   }
 
   async updateUserWithLinks(userId: string, linkData) {
+    console.log(linkData);
     try {
       await this.prisma.$transaction(async (tx) => {
         const user = await tx.profileUser.update({
@@ -157,9 +159,51 @@ export class ProfileService {
   }
 
   private async updateProfile(id: string, title: string, description: string, about: string, techs: TechLanguages[], links: Link[]): Promise<ProfileUser> {
-    return await this.prisma.profileUser.update({
-      where: { id },
-      data: { title, description, about, techs: { connect: techs }, links: { connect: links } },
+    // return await this.prisma.profileUser.update({
+    //   where: { id },
+    //   data: { title, description, about, techs: { connect: techs }, links: { connect: links } },
+    // });
+
+    return await this.prisma.$transaction(async (tx) => {
+
+      const user = await tx.profileUser.findUnique({
+        where: {id},
+        include: { techs: true, links: true }
+      });
+
+      const techsIdsToRemove = user.techs
+        .filter(tech => !techs.some(ld => ld.id === tech.id))
+        .map(tech => tech.id);
+
+      const linkIdsToRemove = user.links
+        .filter(link => !links.some(ld => ld.id === link.id))
+        .map(link => link.id);
+      
+      await tx.profileUser.update({
+        where: { id },
+        data: {
+          links: {
+            disconnect: linkIdsToRemove.map(id => ({ id }))
+          },
+          techs: {
+            disconnect: techsIdsToRemove.map(id => ({ id }))
+          }
+        }
+      });
+
+      const userUpdated = await tx.profileUser.update({
+        where: { id },
+        data: {
+          title,
+          description,
+          about,
+          techs: { connect: techs },
+          links: { connect: links }
+        },
+        include: { techs: true, links: true }
+      });
+
+      return userUpdated;
     });
   }
   

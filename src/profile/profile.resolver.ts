@@ -7,7 +7,9 @@ import { CreateProfileResponse, ProfileResponse } from './types/profile.types';
 
 @Resolver('profile')
 export class ProfileResolver {
-  constructor(private readonly profileService: ProfileService) {}
+  constructor(
+    private readonly profileService: ProfileService,
+  ) {}
 
   @Query(() => ProfileResponse)
   @UseGuards(AuthGuard)

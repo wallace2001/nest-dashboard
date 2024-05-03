@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
-import { DeleteProjectDto, ProjectDto } from './dto/project.dto';
+import { DeleteProjectDto, ProjectDto, ProjectPageDto } from './dto/project.dto';
 
 @Injectable()
 export class ProjectService {
@@ -55,6 +55,44 @@ export class ProjectService {
         }
     }
 
+    async createOrUpdateProjectPage(projectDto: ProjectPageDto, req: any) {
+        try {
+            const { id, title, description } = projectDto;
+            const user = req?.user;
+
+            const profileUser = await this.prisma.profileUser.findUnique({
+                where: {
+                    userId: user.id
+                }
+            });
+
+            if (id) {
+                await this.prisma.projectPage.update({
+                    where: {
+                        id,
+                    },
+                    data: {
+                        title,
+                        description,
+                    }
+                });
+            } else {
+                await this.prisma.projectPage.create({
+                    data: {
+                        title,
+                        description,
+                        profileUserId: profileUser.id
+                    },
+                })
+            }
+
+            return { message: id ? 'Project Page Updated Successfully!' : 'Project Page Created Successfully!' };
+        } catch (error) {
+            console.log(error);
+            throw new BadRequestException('Error!');
+        }
+    }
+
     async deleteProject(deleteProjectDto: DeleteProjectDto) {
         try {
             await this.prisma.project.delete({
@@ -94,6 +132,27 @@ export class ProjectService {
                 },
                 include: {
                     image: true
+                }
+            });
+        } catch (error) {
+            throw new BadRequestException('Error!');
+        }
+    }
+
+    async getProjectPage(req: any) {
+        try {
+
+            const user = req.user;
+
+            const profileUser = await this.prisma.profileUser.findUnique({
+                where: {
+                    userId: user.id
+                }
+            });
+
+            return await this.prisma.projectPage.findUnique({
+                where: {
+                    profileUserId: profileUser.id
                 }
             });
         } catch (error) {

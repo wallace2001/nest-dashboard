@@ -2,7 +2,7 @@ import { Field, ObjectType } from "@nestjs/graphql";
 import { ProfileUser } from "prisma/prisma-client";
 import { LinkProfilesResponse, TechResponse } from "src/types/tech.types";
 import { ErrorType } from "../../types/user.types";
-import { Profile } from "../entities/profile.entities";
+import { Avatar, Profile } from "../entities/profile.entities";
 
 @ObjectType()
 export class CreateProfileResponse {
@@ -36,7 +36,6 @@ export class ProfileResponse {
   @Field(() => [LinkProfilesResponse])
   linkProfiles: LinkProfilesResponse[];
 }
-
 @ObjectType()
 export class LoggedInPortfolioProfileResponse {
   @Field(() => [Profile], { nullable: true })

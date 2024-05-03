@@ -5,6 +5,7 @@ import { CreateExperienceDto, DeleteExperienceDto } from './dto/experience.dto';
 type Experience = {
   id?: string;
   name: string;
+  function: string;
   date: {
     from: Date;
     to?: Date;
@@ -55,6 +56,7 @@ export class ExperienceService {
               },
               data: {
                 name: experience.name,
+                function: experience.function,
                 from: experience.date.from,
                 to: experience.date?.to,
               },
@@ -63,6 +65,7 @@ export class ExperienceService {
             await this.prisma.experience.create({
               data: {
                 name: experience.name,
+                function: experience.function,
                 from: experience.date.from,
                 to: experience.date?.to,
                 profileUserId: profileUser.id,
@@ -104,6 +107,7 @@ export class ExperienceService {
       return experiences.map((experience) => ({
         id: experience.id,
         name: experience.name,
+        function: experience.function,
         date: {
           from: experience.from,
           to: experience.to,

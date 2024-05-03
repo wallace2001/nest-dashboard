@@ -112,6 +112,64 @@ export class UsersService {
     }
   }
 
+  async getUser(name: string) {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          name: name,
+        },
+        include: {
+          avatar: true,
+          Article: true,
+          ProfileUser: {
+            include: {
+              ProjectPage: true,
+              Contact: true,
+              experiences: true,
+              linkProfiles: {
+                include: {
+                  link: true
+                }
+              },
+              techs: true,
+              links: true,
+            }
+          },
+          Project: {
+            include: {
+              image: true
+            }
+          },
+        }
+      });
+  
+      if (!user) {
+        throw new BadRequestException(
+          'User not exists!',
+        );
+      }
+
+      const u = {
+        ...user,
+        ProfileUser: {
+          ...user.ProfileUser,
+          experiences: user.ProfileUser.experiences.map(experience => ({
+            name: experience.name,
+            date: {
+              from: experience.from,
+              to: experience.to
+            }
+          }))
+        }
+      };  
+      return u; 
+    } catch (error) {
+      throw new BadRequestException(
+        'Error',
+      );
+    }
+  }
+
   async getUserByEmail(email: string) {
     const user = await this.prisma.user.findUnique({
       where: {
