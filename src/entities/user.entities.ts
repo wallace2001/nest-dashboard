@@ -94,6 +94,12 @@ export class ProjectPage {
 }
 
 @ObjectType()
+export class Curriculum {
+  @Field()
+  url: string;
+}
+
+@ObjectType()
 export class ProfileUser {
   @Field()
   title: string;
@@ -118,6 +124,9 @@ export class ProfileUser {
 
   @Field(() => Contact)
   Contact?: Contact;
+
+  @Field(() => Curriculum)
+  Curriculum?: Curriculum;
 
   @Field({ nullable: true })
   ProjectPage?: ProjectPage;

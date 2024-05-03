@@ -124,6 +124,7 @@ export class UsersService {
           ProfileUser: {
             include: {
               ProjectPage: true,
+              Curriculum: true,
               Contact: true,
               experiences: true,
               linkProfiles: {

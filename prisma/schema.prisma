@@ -94,6 +94,14 @@ model ProfileUser {
   experiences  Experience[]
   Contact      Contact?
   ProjectPage  ProjectPage?
+  Curriculum   Curriculum?
+}
+
+model Curriculum {
+  id            String       @id @default(uuid())
+  url           String
+  profileUser   ProfileUser? @relation(fields: [profileUserId], references: [id])
+  profileUserId String       @unique
 }
 
 model Contact {

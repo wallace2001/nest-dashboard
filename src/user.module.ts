@@ -30,6 +30,8 @@ import { ProjectService } from './project/project.service';
 import { ProjectResolver } from './project/project.resolver';
 import { ContactService } from './contact/contact.service';
 import { ContactResolver } from './contact/contact.resolver';
+import { CurriculumResolver } from './curriculum/curriculum.resolver';
+import { CurriculumService } from './curriculum/curriculum.service';
 
 @Module({
   imports: [
@@ -99,6 +101,8 @@ import { ContactResolver } from './contact/contact.resolver';
     ProjectResolver,
     ContactService,
     ContactResolver,
+    CurriculumResolver,
+    CurriculumService,
   ],
 })
 export class UsersModule {}

@@ -18,7 +18,6 @@ export class CloudinaryController {
         @Context() context: { req: Request },
         @Res() response: Response
     ) {
-        console.log(file);
       const upload = await this.cloudinaryService.upload(file);
       response.status(200).send({url: upload.url});
     }
