@@ -64,6 +64,9 @@ import { PrismaService } from "../../prisma/prisma.service";
           where: {
             id: decoded.sub,
           },
+          include: {
+            avatar: true
+          }
         });
 
         const accessToken = this.jwtService.sign(
@@ -101,6 +104,9 @@ import { PrismaService } from "../../prisma/prisma.service";
           where: {
             id: decoded.sub,
           },
+          include: {
+            avatar: true
+          }
         });
 
         req.accesstoken = accessTokenData;
