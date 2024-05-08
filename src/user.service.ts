@@ -315,7 +315,6 @@ export class UsersService {
         invalidCredentials: 'Invalid credentials',
       });
     }
-    console.log(this.issueTokens(user, res));
     return this.issueTokens(user, res);
   }
 

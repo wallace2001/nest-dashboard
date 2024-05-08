@@ -119,7 +119,6 @@ export class ProfileService {
   }
 
   async updateUserWithLinks(userId: string, linkData) {
-    console.log(linkData);
     try {
       await this.prisma.$transaction(async (tx) => {
         const user = await tx.profileUser.update({
@@ -150,7 +149,6 @@ export class ProfileService {
         });
       });
   
-      console.log("Relacionamentos de usuário atualizados com sucesso.");
     } catch (error) {
       console.error("Erro ao atualizar relacionamentos de usuário:", error);
     } finally {
