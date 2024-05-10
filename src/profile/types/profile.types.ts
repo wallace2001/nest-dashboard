@@ -28,12 +28,12 @@ export class ProfileResponse {
   about: string;
 
   @Field(() => [TechResponse])
-  techs: TechResponse[];
+  techs?: TechResponse[];
 
-  @Field(() => [TechResponse])
+  @Field(() => [TechResponse], { nullable: true })
   links: TechResponse[];
 
-  @Field(() => [LinkProfilesResponse])
+  @Field(() => [LinkProfilesResponse], { nullable: true })
   linkProfiles: LinkProfilesResponse[];
 }
 @ObjectType()

@@ -135,7 +135,7 @@ export class ProfileService {
           include: { links: true }
         });
   
-        const linkIdsToRemove = user.links
+        const linkIdsToRemove = user?.links
           .filter(link => !linkData.some(ld => ld.id === link.id))
           .map(link => link.id);
         
@@ -157,31 +157,32 @@ export class ProfileService {
   }
 
   private async updateProfile(id: string, title: string, description: string, about: string, techs: TechLanguages[], links: Link[]): Promise<ProfileUser> {
-    // return await this.prisma.profileUser.update({
-    //   where: { id },
-    //   data: { title, description, about, techs: { connect: techs }, links: { connect: links } },
-    // });
-
     return await this.prisma.$transaction(async (tx) => {
-
       const user = await tx.profileUser.findUnique({
         where: {id},
         include: { techs: true, links: true }
       });
 
-      const techsIdsToRemove = user.techs
+      let techsIdsToRemove = [];
+      let linkIdsToRemove = [];
+
+      if (user.techs && techs) {
+        techsIdsToRemove = user.techs
         .filter(tech => !techs.some(ld => ld.id === tech.id))
         .map(tech => tech.id);
+      }
 
-      const linkIdsToRemove = user.links
+      if (user.links && links) {
+        linkIdsToRemove = user?.links
         .filter(link => !links.some(ld => ld.id === link.id))
         .map(link => link.id);
-      
+      }
+
       await tx.profileUser.update({
         where: { id },
         data: {
           links: {
-            disconnect: linkIdsToRemove.map(id => ({ id }))
+            disconnect: linkIdsToRemove?.map(id => ({ id }))
           },
           techs: {
             disconnect: techsIdsToRemove.map(id => ({ id }))
@@ -206,6 +207,7 @@ export class ProfileService {
   }
   
   private async updateLinkProfiles(linksGroup: LinkProfile[]): Promise<void> {
+    if (!linksGroup) return;
     for (const link of linksGroup) {
       if (link.id) {
         await this.updateLinkProfile(link.id, link.linkUrl);

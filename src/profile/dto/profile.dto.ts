@@ -65,11 +65,11 @@ export class CreateProfileDto {
   @IsNotEmpty({ message: "Profile techs is required." })
   techs: TechsResponse[] | unknown;
 
-  @Field(() => [LinkResponse])
+  @Field(() => [LinkResponse], { nullable: true })
   @IsNotEmpty({ message: "Profile techs is required." })
   links: LinkResponse[] | unknown;
 
-  @Field(() => [LinkUpdateResponse])
+  @Field(() => [LinkUpdateResponse], { nullable: true })
   @IsOptional()
   linksGroup?: LinkUpdateResponse[] | unknown;
 }
