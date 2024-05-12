@@ -170,8 +170,8 @@ export class Project {
   @Field()
   description: string;
 
-  @Field(() => ImageR)
-  image: ImageR;
+  @Field(() => [ImageR])
+  images: ImageR[];
 
   @Field({ nullable: true })
   content: string;

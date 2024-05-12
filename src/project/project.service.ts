@@ -8,10 +8,15 @@ export class ProjectService {
 
     async createOrUpdateProject(projectDto: ProjectDto, req: any) {
         try {
-            const { id, title, description, content, imageUrl } = projectDto;
+            const { id, title, description, content, imagesUrl } = projectDto;
             const user = req?.user;
 
             if (id) {
+                await this.prisma.image.deleteMany({
+                    where: {
+                        projectId: id
+                    }
+                });
                 await this.prisma.project.update({
                     where: {
                         id,
@@ -20,14 +25,9 @@ export class ProjectService {
                         title,
                         description,
                         content,
-                        image: {
-                            update: {
-                                where: {
-                                    projectId: id,
-                                },
-                                data: {
-                                    url: imageUrl
-                                }
+                        images: {
+                            createMany: {
+                                data: imagesUrl
                             }
                         }
                     }
@@ -39,9 +39,9 @@ export class ProjectService {
                         description,
                         content,
                         userId: user.id,
-                        image: {
-                            create: {
-                                url: imageUrl
+                        images: {
+                            createMany: {
+                                data: imagesUrl
                             }
                         }
                     },
@@ -116,7 +116,7 @@ export class ProjectService {
                     userId: user?.id,
                 },
                 include: {
-                    image: true
+                    images: true
                 }
             });
         } catch (error) {
@@ -126,14 +126,16 @@ export class ProjectService {
 
     async getProjectById(idProject: string) {
         try {
-            return await this.prisma.project.findUnique({
+            const t = await this.prisma.project.findUnique({
                 where: {
                     id: idProject,
                 },
                 include: {
-                    image: true
+                    images: true
                 }
             });
+
+            return t;
         } catch (error) {
             throw new BadRequestException('Error!');
         }

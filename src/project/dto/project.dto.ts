@@ -18,6 +18,12 @@ export class ProjectPageDto {
 }
 
 @InputType()
+export class ImagesProject {
+  @Field()
+  url: string;
+}
+
+@InputType()
 export class ProjectDto {
   @Field({ nullable: true })
   id?: string;
@@ -32,10 +38,8 @@ export class ProjectDto {
   @IsString({ message: "Project description must need to be one string." })
   description: string;
 
-  @Field()
-  @IsNotEmpty({ message: "Project image is required." })
-  @IsString({ message: "Project image must need to be one string." })
-  imageUrl: string;
+  @Field(() => [ImagesProject])
+  imagesUrl: ImagesProject[];
 
   @Field()
   content: string;

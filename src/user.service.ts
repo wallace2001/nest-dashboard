@@ -138,7 +138,7 @@ export class UsersService {
           },
           Project: {
             include: {
-              image: true
+              images: true
             }
           },
         }

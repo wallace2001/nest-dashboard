@@ -134,7 +134,7 @@ model Article {
 
 model Image {
   id        String   @id @default(uuid())
-  projectId String   @unique // Foreign Key to Product
+  projectId String
   project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   url       String // URL of the image
   createdAt DateTime @default(now())
@@ -152,5 +152,5 @@ model Project {
   userId      String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  image       Image?
+  images       Image[]
 }

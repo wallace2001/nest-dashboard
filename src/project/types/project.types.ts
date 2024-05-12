@@ -22,8 +22,8 @@ export class ProjectResponse {
   @Field()
   description: string;
 
-  @Field(() => Image)
-  image: Image;
+  @Field(() => [Image])
+  images: Image[];
 
   @Field({ nullable: true })
   content: string;
