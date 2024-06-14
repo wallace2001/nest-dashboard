@@ -58,7 +58,7 @@ export class ExperienceService {
                 name: experience.name,
                 function: experience.function,
                 from: experience.date.from,
-                to: experience.date?.to,
+                to: experience.date?.to || null,
               },
             });
           } else {
@@ -67,7 +67,7 @@ export class ExperienceService {
                 name: experience.name,
                 function: experience.function,
                 from: experience.date.from,
-                to: experience.date?.to,
+                to: experience.date?.to || null,
                 profileUserId: profileUser.id,
               },
             });
