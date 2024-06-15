@@ -53,6 +53,9 @@ export class Experience{
   @Field()
   name: string;
 
+  @Field()
+  function: string;
+
   @Field(() => DateExperience)
   date: DateExperience;
 }
