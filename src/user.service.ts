@@ -156,6 +156,7 @@ export class UsersService {
           ...user.ProfileUser,
           experiences: user.ProfileUser.experiences.map(experience => ({
             name: experience.name,
+            function: experience.function,
             date: {
               from: experience.from,
               to: experience.to
