@@ -48,7 +48,7 @@
     "uploadthing": "^6.10.1"
   },
   "devDependencies": {
-    "@nestjs/cli": "^9.0.0",
+    "@nestjs/cli": "^10.4.4",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
     "@types/bcryptjs": "^2.4.6",
