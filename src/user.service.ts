@@ -166,6 +166,7 @@ export class UsersService {
       };  
       return u; 
     } catch (error) {
+      console.log(error);
       throw new BadRequestException(
         'Error',
       );
