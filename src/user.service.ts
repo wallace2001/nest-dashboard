@@ -114,8 +114,6 @@ export class UsersService {
 
   async getUser(name: string) {
     try {
-      const t = await this.prisma.user.findMany();
-      console.log(t);
       const user = await this.prisma.user.findUnique({
         where: {
           name: name,
