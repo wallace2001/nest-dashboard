@@ -67,9 +67,6 @@ export class ArticleService {
             return await this.prisma.article.findMany({
                 where: {
                     userId: user?.id,
-                },
-                orderBy: {
-                    createdAt: "desc"
                 }
             });
         } catch (error) {
