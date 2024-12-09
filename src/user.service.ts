@@ -120,7 +120,11 @@ export class UsersService {
         },
         include: {
           avatar: true,
-          Article: true,
+          Article: {
+            orderBy: {
+              createdAt: "desc"
+            }
+          },
           ProfileUser: {
             include: {
               ProjectPage: true,
