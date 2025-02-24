@@ -1,11 +1,14 @@
 import { NestFactory } from '@nestjs/core';
-import { NestExpressApplication } from '@nestjs/platform-express';
+import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
+import * as express from 'express';
 import { UsersModule } from './user.module';
 import cookieParser = require("cookie-parser");
 
+const expressApp = express();
+
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(UsersModule);
+  const app = await NestFactory.create<NestExpressApplication>(UsersModule, new ExpressAdapter(expressApp));
 
   app.enableCors({
     origin: '*'
